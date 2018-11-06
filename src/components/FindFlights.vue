@@ -8,12 +8,14 @@
             v-model="origin"
             :items="airports"
             prepend-icon="flight_takeoff"
-            label="Origin" />
+            label="Origin" 
+            required/>
         <v-autocomplete
             v-model="destination"
             :items="airports"
             prepend-icon="flight_land"
-            label="Destination" />
+            label="Destination" 
+            required/>
         <v-menu
             :close-on-content-click="false"
             :nudge-right="40"
@@ -28,9 +30,12 @@
             label="Date"
             prepend-icon="event"
             readonly/>
-        <v-date-picker v-model="date"></v-date-picker>
+        <v-date-picker 
+            v-model="this.date"
+            :min="this.addDays(1).toISOString().substr(0, 10)"
+            :max="this.addDays(100).toISOString().substr(0, 10)"></v-date-picker>
         </v-menu>
-        <v-btn color="success">Search</v-btn>
+        <v-btn color="success" :to="dest">Search</v-btn>
     </v-card-text>
     </v-card>
 </template>
@@ -56,6 +61,16 @@ export default {
   computed: {
       computedDateFormatted () {
         return this.formatDate(this.date)
+      },
+      dest (){
+          return {name: "results", 
+            params: {
+                origin: this.origin, 
+                destination: this.destination, 
+                date: this.date,
+                dateFormatted: this.dateFormatted
+                }
+            };
       }
     },
     watch: {
@@ -64,6 +79,11 @@ export default {
       }
     },
     methods: {
+      addDays (d) {
+        var date = new Date();
+        date.setDate(date.getDate() + d);
+        return date;
+      },
       formatDate (date) {
         if (!date) return null
 
