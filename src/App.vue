@@ -2,32 +2,30 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+        <span>FRI Airline</span> 
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         flat
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
+        target="_blank">
         <span class="mr-2">Latest Release</span>
       </v-btn>
     </v-toolbar>
 
     <v-content>
-      <HelloWorld/>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import LandingPage from './components/LandingPage'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LandingPage
   },
   data () {
     return {

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import FindFlights from '../components/FindFlights'
+import FindFlights from './FindFlights'
 
 export default {
   components: {
