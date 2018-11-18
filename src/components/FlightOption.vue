@@ -36,7 +36,7 @@
                             <span class="grey--text">No meal included</span><br />
                         </div>
                         </v-card-title>
-                        <v-card-actions> <v-btn color="success" to="/book">Select</v-btn> </v-card-actions>
+                        <v-card-actions> <v-btn color="success" :to="dest(0)">Select</v-btn> </v-card-actions>
                     </v-card>
                 </v-flex>
                 <v-flex xs3>
@@ -50,7 +50,7 @@
                             <span class="grey--text">Welcome drink</span><br />
                         </div>
                         </v-card-title>
-                        <v-card-actions> <v-btn color="success" to="/book">Select</v-btn> </v-card-actions>
+                        <v-card-actions> <v-btn color="success" :to="dest(1)">Select</v-btn> </v-card-actions>
                     </v-card>
                 </v-flex>
                 <v-flex xs3>
@@ -64,7 +64,7 @@
                             <span class="grey--text">Meals and drinks included</span><br />
                         </div>
                         </v-card-title>
-                        <v-card-actions> <v-btn color="success" to="/book">Select</v-btn> </v-card-actions>
+                        <v-card-actions> <v-btn color="success" :to="dest(2)">Select</v-btn> </v-card-actions>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -97,11 +97,23 @@ export default {
             return h+"h "+min+"min";
         }
     },
-  components: {
-  },
-  data: () => ({
-  }),
-  props: ['flightOption']
+    methods: {
+        dest (ticketClass){
+            return {name: "book", 
+                params: {
+                    schedule: this.flightOption.schedule,
+                    fares: this.flightOption.fares,
+                    ticketClass: ticketClass,
+                    date: this.$route.params.date
+                }
+            };
+        }
+    },
+    components: {
+    },
+    data: () => ({
+    }),
+    props: ['flightOption']
 };
 </script>
 

@@ -11,8 +11,8 @@
                     <v-timeline align-top dense >
                         <v-timeline-item color="red" icon="flight_takeoff">
                             <v-layout pt-3>
-                                <v-flex xs3><strong>{{flight.departure}}</strong></v-flex>
-                                <v-flex><strong>{{flight.origin}}</strong></v-flex>
+                                <v-flex xs3><strong>{{$route.params.schedule.start_time.substring(0, 5)}}</strong></v-flex>
+                                <v-flex><strong>{{$route.params.schedule.origin.city}}</strong></v-flex>
                             </v-layout>
                         </v-timeline-item>
                         <v-timeline-item color="blue" small>
@@ -22,8 +22,8 @@
                         </v-timeline-item>
                         <v-timeline-item color="green" icon="flight_land" >
                             <v-layout pt-3>
-                                <v-flex xs3><strong>{{flight.arrival}}</strong></v-flex>
-                                <v-flex><strong>{{flight.destination}}</strong></v-flex>
+                                <v-flex xs3><strong>{{$route.params.schedule.end_time.substring(0, 5)}}</strong></v-flex>
+                                <v-flex><strong>{{$route.params.schedule.destination.city}}</strong></v-flex>
                             </v-layout>
                         </v-timeline-item>
                     </v-timeline>
@@ -53,10 +53,10 @@
                     <v-list>
                         <v-list-tile>
                             <v-list-tile-content>
-                            <v-list-tile-title>Economy fare</v-list-tile-title>
+                            <v-list-tile-title>{{(["Economy", "Business", "Premium"])[$route.params.ticketClass]}} fare</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-avatar>
-                                {{flight.fare | netPrice | euro}}
+                                {{$route.params.fares[$route.params.ticketClass] | netPrice | euro}}
                             </v-list-tile-avatar>
                         </v-list-tile>
                         <v-list-tile>
@@ -64,7 +64,7 @@
                             <v-list-tile-title>22% VAT</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-avatar>
-                                {{flight.fare | vatAmount | euro}}
+                                {{$route.params.fares[$route.params.ticketClass] | vatAmount | euro}}
                             </v-list-tile-avatar>
                         </v-list-tile>
                         <v-list-tile>
@@ -72,11 +72,11 @@
                             <v-list-tile-title><strong>Total</strong></v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-avatar>
-                                <strong>{{flight.fare | euro}}</strong>
+                                <strong>{{$route.params.fares[$route.params.ticketClass] | euro}}</strong>
                             </v-list-tile-avatar>
                         </v-list-tile>
                     </v-list>
-                    <v-btn color="success">Buy</v-btn>
+                    <v-btn color="success" v-on:click="buy">Buy</v-btn>
                 </v-flex>
             </v-layout>
         </v-card-text>
@@ -86,12 +86,13 @@
 
 <script>
 import FlightOption from '../components/FlightOption'
+import api from '../api.js'
 
 export default {
     computed:{
         duration (){
-            var dep = this.flight.departure;
-            var arr = this.flight.arrival;
+            var dep = this.$route.params.schedule.start_time;
+            var arr = this.$route.params.schedule.end_time;
             var d = dep.split(':');
             var a = arr.split(':');
             var h = parseInt(a[0]) - parseInt(d[0]);
@@ -125,17 +126,25 @@ export default {
   data: () => ({
       flight:
         {
-            number: "JP1546",
-            departure: "20:30",
-            arrival: "22:02",
-            origin: "Ljubljana",
-            destination: "Munich",
-            fare: 100,
             firstName: "",
             lastName: "",
             email: ""
         }
-  })
+  }),
+  methods: {
+      buy: function (){
+          var d = {
+            firstName: this.flight.firstName,
+            lastName: this.flight.lastName,
+            email: this.flight.email,
+            ticketClass: this.$route.params.ticketClass,
+            flight: this.$route.params.schedule.id,
+            date: this.$route.params.date
+        };
+        console.log(d)
+        //api.post("book", )
+      }
+  }
 };
 </script>
 
