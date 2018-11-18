@@ -2,7 +2,7 @@
   <v-container>
       <v-card>
         <v-toolbar  dark color="primary">
-            <v-toolbar-title>{{$route.params.origin}} - {{$route.params.destination}} {{$route.params.dateFormatted}}</v-toolbar-title>
+            <v-toolbar-title>{{$route.params.origin.city}} - {{$route.params.destination.city}} {{$route.params.dateFormatted}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn color="success" to="/">Change</v-btn>
         </v-toolbar>

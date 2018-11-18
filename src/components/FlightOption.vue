@@ -9,7 +9,7 @@
                         <v-timeline-item color="red" icon="flight_takeoff">
                             <v-layout pt-3>
                                 <v-flex xs3><strong>{{flightOption.departure}}</strong></v-flex>
-                                <v-flex><strong>{{flightOption.origin}}</strong></v-flex>
+                                <v-flex><strong>{{flightOption.origin.city}}</strong></v-flex>
                             </v-layout>
                         </v-timeline-item>
                         <v-timeline-item color="blue" small>
@@ -20,7 +20,7 @@
                         <v-timeline-item color="green" icon="flight_land" >
                             <v-layout pt-3>
                                 <v-flex xs3><strong>{{flightOption.arrival}}</strong></v-flex>
-                                <v-flex><strong>{{flightOption.destination}}</strong></v-flex>
+                                <v-flex><strong>{{flightOption.destination.city}}</strong></v-flex>
                             </v-layout>
                         </v-timeline-item>
                     </v-timeline>

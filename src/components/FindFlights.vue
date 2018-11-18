@@ -6,13 +6,13 @@
         <v-card-text>
         <v-autocomplete
             v-model="origin"
-            :items="airports"
+            :items="airports.map(a => a.city)"
             prepend-icon="flight_takeoff"
             label="Origin" 
             required/>
         <v-autocomplete
             v-model="destination"
-            :items="airports"
+            :items="airports.map(a => a.city)"
             prepend-icon="flight_land"
             label="Destination" 
             required/>
@@ -24,39 +24,33 @@
             offset-y
             full-width
             min-width="290px">
-        <v-text-field
-            slot="activator"
-            v-model="computedDateFormatted"
-            label="Date"
-            prepend-icon="event"
-            readonly/>
-        <v-date-picker 
-            v-model="this.date"
-            :min="this.addDays(1).toISOString().substr(0, 10)"
-            :max="this.addDays(100).toISOString().substr(0, 10)"></v-date-picker>
+          <v-text-field
+              slot="activator"
+              v-model="computedDateFormatted"
+              label="Date"
+              prepend-icon="event"
+              readonly/>
+          <v-date-picker 
+              v-model="date"
+              :min="this.addDays(1).toISOString().substr(0, 10)"
+              :max="this.addDays(100).toISOString().substr(0, 10)" no-title></v-date-picker>
         </v-menu>
+        
         <v-btn color="success" :to="dest">Search</v-btn>
     </v-card-text>
     </v-card>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data: (vm) => ({
-    airports: [
-      "Ljubljana",
-      "Vienna",
-      "Munich",
-      "Frankfurt",
-      "Istanbul",
-      "Podgorica",
-      "Priština",
-      "Belgrade"
-    ],
+    airports: [ ],
     origin: null,
     destination: null,
-    date: null,
-    dateFormatted: null
+    date: vm.addDays(1).toISOString().substr(0, 10),
+    dateFormatted: vm.formatDate(vm.addDays(1).toISOString().substr(0, 10))
   }),
   computed: {
       computedDateFormatted () {
@@ -65,8 +59,8 @@ export default {
       dest (){
           return {name: "results", 
             params: {
-                origin: this.origin, 
-                destination: this.destination, 
+                origin: this.airports.find(o => {return o.city === this.origin}), 
+                destination: this.airports.find(o => {return o.city === this.destination}), 
                 date: this.date,
                 dateFormatted: this.dateFormatted
                 }
@@ -96,6 +90,16 @@ export default {
         const [day, month, year] = date.split('.')
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       }
+    },
+    created() {
+      axios.get(`http://localhost:8081/v1/airports`, 
+        { headers: { 'crossDomain': true, 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
+      .then(response => {
+        this.airports = response.data
+      })
+      .catch(e => {
+        this.errors.push(e)
+      })
     }
 };
 </script>
