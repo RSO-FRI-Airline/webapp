@@ -1,15 +1,15 @@
 <template>
   <v-container>
       <v-card>
-        <h3>Flight {{flightOption.number}}</h3>
+        <h3>Flight {{flightOption.schedule.id}} | {{flightOption.schedule.airplane.name}}</h3>
         <v-card-text>
             <v-layout>
                 <v-flex xs3>
                     <v-timeline align-top dense >
                         <v-timeline-item color="red" icon="flight_takeoff">
                             <v-layout pt-3>
-                                <v-flex xs3><strong>{{flightOption.departure}}</strong></v-flex>
-                                <v-flex><strong>{{flightOption.origin.city}}</strong></v-flex>
+                                <v-flex xs3><strong>{{flightOption.schedule.start_time.substring(0, 5)}}</strong></v-flex>
+                                <v-flex><strong>{{flightOption.schedule.origin.city}}</strong></v-flex>
                             </v-layout>
                         </v-timeline-item>
                         <v-timeline-item color="blue" small>
@@ -19,8 +19,8 @@
                         </v-timeline-item>
                         <v-timeline-item color="green" icon="flight_land" >
                             <v-layout pt-3>
-                                <v-flex xs3><strong>{{flightOption.arrival}}</strong></v-flex>
-                                <v-flex><strong>{{flightOption.destination.city}}</strong></v-flex>
+                                <v-flex xs3><strong>{{flightOption.schedule.end_time.substring(0, 5)}}</strong></v-flex>
+                                <v-flex><strong>{{flightOption.schedule.destination.city}}</strong></v-flex>
                             </v-layout>
                         </v-timeline-item>
                     </v-timeline>
@@ -79,10 +79,11 @@ import FindFlights from '../components/FindFlights'
 export default {
     computed:{
         duration (){
-            var dep = this.flightOption.departure;
-            var arr = this.flightOption.arrival;
+            var dep = this.flightOption.schedule.start_time;
+            var arr = this.flightOption.schedule.end_time;
             var d = dep.split(':');
             var a = arr.split(':');
+
             var h = parseInt(a[0]) - parseInt(d[0]);
             var min = parseInt(a[1]) - parseInt(d[1]);
             while(min < 0){

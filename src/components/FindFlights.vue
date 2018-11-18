@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import api from '../api.js'
 
 export default {
   data: (vm) => ({
@@ -92,13 +92,11 @@ export default {
       }
     },
     created() {
-      axios.get(`http://localhost:8081/v1/airports`, 
-        { headers: { 'crossDomain': true, 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
-      .then(response => {
-        this.airports = response.data
+      api.get("airports").then(response => {
+          this.airports = response.data
       })
       .catch(e => {
-        this.errors.push(e)
+          this.errors.push(e)
       })
     }
 };
