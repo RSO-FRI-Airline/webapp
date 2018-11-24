@@ -56,7 +56,7 @@
                             <v-list-tile-title>{{(["Economy", "Business", "Premium"])[$route.params.ticketClass]}} fare</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-avatar>
-                                {{$route.params.fares[$route.params.ticketClass] | netPrice | euro}}
+                                {{$route.params.prices[$route.params.ticketClass].price | netPrice | euro}}
                             </v-list-tile-avatar>
                         </v-list-tile>
                         <v-list-tile>
@@ -64,7 +64,7 @@
                             <v-list-tile-title>22% VAT</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-avatar>
-                                {{$route.params.fares[$route.params.ticketClass] | vatAmount | euro}}
+                                {{$route.params.prices[$route.params.ticketClass].price | vatAmount | euro}}
                             </v-list-tile-avatar>
                         </v-list-tile>
                         <v-list-tile>
@@ -72,7 +72,7 @@
                             <v-list-tile-title><strong>Total</strong></v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-avatar>
-                                <strong>{{$route.params.fares[$route.params.ticketClass] | euro}}</strong>
+                                <strong>{{$route.params.prices[$route.params.ticketClass].price | euro}}</strong>
                             </v-list-tile-avatar>
                         </v-list-tile>
                     </v-list>
@@ -139,8 +139,10 @@ export default {
             email: this.flight.email,
             ticketClass: this.$route.params.ticketClass,
             flight: this.$route.params.schedule.id,
-            date: this.$route.params.date
+            date: this.$route.params.date,
+            price: this.$route.params.prices[this.$route.params.ticketClass]
         };
+        console.log(JSON.stringify(d));
         console.log(d)
         //api.post("book", )
       }

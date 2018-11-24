@@ -29,7 +29,7 @@
                     <v-card>
                         <v-card-title primary-title>
                         <div>
-                            <div class="headline">{{flightOption.fares[0]}} €</div>
+                            <div class="headline">{{flightOption.prices[0].price}} €</div>
                             <span>Economy</span><br />
                             <span class="grey--text">Hand baggage included</span><br />
                             <span class="grey--text">No checked luggage</span><br />
@@ -43,7 +43,7 @@
                     <v-card>
                         <v-card-title primary-title>
                         <div>
-                            <div class="headline">{{flightOption.fares[1]}} €</div>
+                            <div class="headline">{{flightOption.prices[1].price}} €</div>
                             <span>Standard</span><br />
                             <span class="grey--text">Hand baggage</span><br />
                             <span class="grey--text">Checked luggage (max 20 kg)</span><br />
@@ -57,7 +57,7 @@
                     <v-card>
                         <v-card-title primary-title>
                         <div>
-                            <div class="headline">{{flightOption.fares[2]}} €</div>
+                            <div class="headline">{{flightOption.prices[2].price}} €</div>
                             <span>Premium</span><br />
                             <span class="grey--text">Hand baggage</span><br />
                             <span class="grey--text">Checked luggage (max 35 kg)</span><br />
@@ -102,7 +102,7 @@ export default {
             return {name: "book", 
                 params: {
                     schedule: this.flightOption.schedule,
-                    fares: this.flightOption.fares,
+                    prices: this.flightOption.prices,
                     ticketClass: ticketClass,
                     date: this.$route.params.date
                 }
