@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - image: rsoairlines/fri-airlines-webapp:v0.0.0
+        name: friairlines-webapp
+        ports:
+        - containerPort: 8080
+          name: server
+          protocol: TCP
