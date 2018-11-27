@@ -1,5 +1,34 @@
 <template>
   <v-container>
+
+    <v-dialog v-model="dialog" width="500" >
+      <v-card>
+        <v-card-title class="headline success lighten-2" primary-title >
+          Booking completed
+        </v-card-title>
+        <v-card-text>You have successfully booked your flight!</v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="success" flat to="/" >Ok</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="errorDialog" width="500" >
+      <v-card>
+        <v-card-title class="headline error lighten-2" primary-title >
+          Booking error
+        </v-card-title>
+        <v-card-text>Something is wrong with your booking!</v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" flat @click="errorDialog = false" >Ok</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
       <v-card>
         <v-toolbar  dark color="primary">
             <v-toolbar-title>Flight information</v-toolbar-title>
@@ -110,11 +139,11 @@ export default {
     },
     filters: {
         vatAmount: function (value) {
-            return (parseFloat(value)*0.22);
+            return Math.round((parseFloat(value)*0.22)*100)/100;
         },
         netPrice: function (value) {
             var d = parseFloat(value);
-            return d - (d*0.22);
+            return Math.round((d - (d*0.22))*100)/100;
         },
         euro: function (value){
             return value + "€";
@@ -129,22 +158,32 @@ export default {
             firstName: "",
             lastName: "",
             email: ""
-        }
+        },
+        dialog: false,
+        errorDialog: false
   }),
   methods: {
       buy: function (){
-          var d = {
-            firstName: this.flight.firstName,
-            lastName: this.flight.lastName,
-            email: this.flight.email,
-            ticketClass: this.$route.params.ticketClass,
-            flight: this.$route.params.schedule.id,
-            date: this.$route.params.date,
-            price: this.$route.params.prices[this.$route.params.ticketClass]
+        var d = {
+            customer: {
+                firstname: this.flight.firstName,
+                lastname: this.flight.lastName,
+                mail: this.flight.email
+            },
+            token: this.$route.params.prices[this.$route.params.ticketClass].id
         };
         console.log(JSON.stringify(d));
         console.log(d)
         //api.post("book", )
+        if(d.customer.firstname != "" && d.customer.lastname != "" && d.customer.mail != ""){
+            api.post("booking", "book", d).then(response => {
+                this.dialog = true;
+            }).catch(err =>{
+                this.errorDialog = true;
+            });
+        }else {
+            this.errorDialog = true;
+        }
       }
   }
 };

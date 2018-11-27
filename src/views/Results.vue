@@ -9,6 +9,9 @@
         <v-card-text>
             <v-progress-linear :indeterminate="true" v-if="isLoading"></v-progress-linear>
             <FlightOption v-for="i in results" :flightOption="i" v-bind:key="i.number"/>
+            <v-alert :value="!isLoading&&results.length == 0" type="error">
+              It looks like there are no flights for selected dates!
+            </v-alert>
         </v-card-text>
     </v-card>
   </v-container>
@@ -27,7 +30,7 @@ export default {
       results: [ ]
   }),
   created() {
-    api.post("search", this.$route.params).then(response => {
+    api.post("search", "search", this.$route.params).then(response => {
       this.isLoading = false;
       this.results = response.data;
     })

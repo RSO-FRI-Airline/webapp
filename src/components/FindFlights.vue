@@ -92,7 +92,7 @@ export default {
       }
     },
     created() {
-      api.get("airports").then(response => {
+      api.get("search", "airports").then(response => {
           this.airports = response.data
       })
       .catch(e => {
