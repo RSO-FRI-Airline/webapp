@@ -16,7 +16,11 @@
               </v-layout>
             </v-container>
           </v-img>
-      </v-card>
+        </v-card>
+        <v-card>
+          <h1>Recommended flights for you</h1>
+          <Recommendations />
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -24,10 +28,12 @@
 
 <script>
 import FindFlights from '../components/FindFlights'
+import Recommendations from '../components/Recommendations'
 
 export default {
   components: {
-    FindFlights
+    FindFlights,
+    Recommendations
   },
   data: () => ({
   })

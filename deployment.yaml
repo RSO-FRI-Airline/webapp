@@ -11,8 +11,11 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: rsoairlines/fri-airlines-webapp:0.0.2
+      - image: rsoairlines/fri-airlines-webapp:0.0.3
         name: friairlines-webapp
+        env:
+        - name: environment
+          value: production
         ports:
         - containerPort: 8080
           name: server
