@@ -7,9 +7,9 @@ export default{
         recommendation: "35.247.27.154:8082"
     },
     local: {
-        search: "35.233.177.20:8081",
-        booking: "35.247.27.154:8082",
-        recommendation: "localhost:8083"
+        search: "localhost:8081",
+        booking: "localhost:8082",
+        recommendation: "localhost:8085"
     },
     get: function (service, endpoint){
         var port = this.address[service];
