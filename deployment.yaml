@@ -11,7 +11,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: rsoairlines/fri-airlines-webapp:0.0.4
+      - image: rsoairlines/fri-airlines-webapp:0.0.5
         name: friairlines-webapp
         env:
         - name: environment

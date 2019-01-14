@@ -4,7 +4,7 @@ export default{
     address: {
         search: "35.233.177.20:8081",
         booking: "35.247.27.154:8082",
-        recommendation: "35.247.27.154:8082"
+        recommendation: "35.197.32.162:8085"
     },
     local: {
         search: "localhost:8081",

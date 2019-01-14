@@ -7,7 +7,7 @@ language: javascript
 dist: trusty
 
 env:
-- DOCKER_IMAGE=rsoairlines/fri-airlines-webapp:0.0.4
+- DOCKER_IMAGE=rsoairlines/fri-airlines-webapp:0.0.5
 
 script:
 - docker build -t "$DOCKER_IMAGE" .
